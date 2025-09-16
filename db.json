@@ -1,9 +1,24 @@
 {
   "todos": [
     {
+      "id": "1",
       "text": "clean room",
-      "done": "false",
-      "id": 1
+      "done": "false"
+    },
+    {
+      "id": "bb4d",
+      "text": "test",
+      "completed": false
+    },
+    {
+      "id": "f9ba",
+      "text": "walk",
+      "completed": false
+    },
+    {
+      "id": "09cf",
+      "text": "clean",
+      "completed": false
     }
   ]
 }

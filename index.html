@@ -40,7 +40,7 @@
 
   <body class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="fw-bold">To-do List CRUD</h2>
+      <h2 class="fw-bold">To-do List</h2>
       <button
         class="btn btn-primary"
         data-bs-toggle="modal"
@@ -96,7 +96,7 @@
             <button class="btn btn-secondary" data-bs-dismiss="modal">
               Cancel
             </button>
-            <button class="btn btn-primary" onclick="saveEdit()">Save</button>
+            <button class="btn btn-primary" onclick="saveEdit()">Update</button>
           </div>
         </div>
       </div>
@@ -127,122 +127,29 @@
       </div>
     </div>
 
-    <script>
-      (async () => {
-        lucide.createIcons();
-        async function getTodos() {
-          try {
-            const response = await fetch("http://localhost:3000/todos");
-            const todos = await response.json();
-            return todos;
-          } catch (error) {
-            console.error("Error fetching todos:", error);
-            return [];
-          }
-        }
-        //let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
-        let editingIndex = null;
-        let deleteIndex = null;
-        let tasks = await getTodos();
-        console.log(tasks);
-
-      /*  function saveTasks() {
-          localStorage.setItem("tasks", JSON.stringify(tasks));
-        } */
-
-        function saveTasks(){
-          
-        }
-
-        function renderTasks() {
-          const list = document.getElementById("taskList");
-          list.innerHTML = "";
-          tasks.forEach((task, index) => {
-            const card = document.createElement("div");
-            card.className =
-              "card-task d-flex justify-content-between align-items-center";
-
-            card.innerHTML = `
-          <div>
-            <input type="checkbox" class="form-check-input me-2" ${
-              task.done ? "checked" : ""
-            } onchange="toggleDone(${index})" />
-                <span class="task-text ${task.done ? "done" : ""}">${
-              task.text
-            }</span>
-          </div>
-          <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-outline-info" onclick="openEdit(${index})">
-              <i data-lucide="pencil"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-info" onclick="deleteTask(${index})">
-                <i data-lucide="trash"></i>
-                </button>
-                </div>`;
-            list.appendChild(card);
-          });
-          lucide.createIcons();
-        }
-
-        function addTask() {
-          const input = document.getElementById("newTaskInput");
-          const text = input.value.trim();
-          //double check here
-          if (text) {
-            tasks.push({
-              text,
-              done: false,
-            });
-            saveTasks();
-            renderTasks();
-            input.value = "";
-            bootstrap.Modal.getInstance(
-              document.getElementById("addModal")
-            ).hide();
-          }
-        }
-
-        function openEdit(index) {
-          editingIndex = index;
-          document.getElementById("editTaskInput").value = tasks[index].text;
-          new bootstrap.Modal(document.getElementById("editModal")).show();
-        }
-
-        function saveEdit() {
-          const text = document.getElementById("editTaskInput").value.trim();
-          if (text && editingIndex !== null) {
-            tasks[editingIndex].text = text;
-            saveTasks();
-            renderTasks();
-            bootstrap.Modal.getInstance(
-              document.getElementById("editModal")
-            ).hide();
-          }
-        }
-
-        function deleteTask(index) {
-          deleteIndex = index;
-          new bootstrap.Modal(document.getElementById("deleteModal")).show();
-        }
-
-        function confirmDelete() {
-          tasks.splice(deleteIndex, 1);
-          saveTasks();
-          renderTasks();
-          deleteIndex = null;
-          bootstrap.Modal.getInstance(
-            document.getElementById("deleteModal")
-          ).hide();
-        }
-
-        function toggleDone(index) {
-          tasks[index].done = !tasks[index].done;
-          saveTasks();
-          renderTasks();
-        }
-
-        renderTasks();
-      })();
-    </script>
+    <script src="./src/index.js"></script>
   </body>
 </html>
+
+<!--async function onCreateTodoClick () {
+const response = await fetch("http://localhost:3000/todos",{
+method: "POST", 
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify()
+})
+}
+
+async function onEditTodoClick () {
+const response = await fetch("http://localhost:3000/todos",{
+method: "PUT", 
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify()
+})
+}
+
+async function onDeleteTodoClick () {
+const response = await fetch("http://localhost:3000/todos",{
+method: "DELETE", 
+})
+}
+-->

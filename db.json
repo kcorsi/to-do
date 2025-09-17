@@ -3,22 +3,22 @@
     {
       "id": "1",
       "text": "clean room",
-      "done": "false"
+      "done": true
     },
     {
       "id": "bb4d",
       "text": "test",
-      "completed": false
+      "done": false
     },
     {
       "id": "f9ba",
       "text": "walk",
-      "completed": false
+      "done": false
     },
     {
       "id": "09cf",
       "text": "clean",
-      "completed": false
+      "done": false
     }
   ]
 }

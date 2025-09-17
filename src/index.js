@@ -1,9 +1,10 @@
 (async () => {
+  const API_URL = "http://localhost:3000/todos";
   lucide.createIcons();
   //Function to fetch all todos from db.json
   async function getTasks() {
     try {
-      const response = await fetch("http://localhost:3000/todos");
+      const response = await fetch(`${API_URL}`);
       const todos = await response.json();
       return todos;
     } catch (error) {
@@ -80,14 +81,14 @@
     const input = document.getElementById("newTaskInput");
     const text = input.value.trim();
     try {
-      const response = await fetch("http://localhost:3000/todos", {
+      const response = await fetch(`${API_URL}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           text: text,
-          completed: false,
+          done: false,
         }),
       });
       const newTodo = await response.json();
@@ -138,15 +139,12 @@
 
     bootstrap.Modal.getInstance(document.getElementById("deleteModal")).hide();
     try {
-      const response = await fetch(
-        `http://localhost:3000/todos/${deleteIndex}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${API_URL}/${deleteIndex}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const newTodo = await response.json();
       return newTodo;
     } catch (error) {
@@ -155,21 +153,34 @@
     }
   }
 
-  function toggleDone(id) {
-    const taskIndex = tasks.findIndex((task) => {
+  async function toggleDone(id) {
+    const task = tasks.find((task) => {
       return task.id === id;
     });
-    console.log("taskIndex = ", taskIndex);
-    if (tasks[taskIndex].done) {
-      tasks[taskIndex].done = false;
-    } else {
-      tasks[taskIndex].done = true;
-    }
-    console.log(tasks);
-    tasks[taskIndex].done = !tasks[taskIndex].done;
-    //saveTasks();
+    const newStatus = !task.done;
+    const updatedTodo = await updateTodo(id, { done: newStatus });
+    console.log("updatedTodo");
+    console.log(updatedTodo);
     renderTasks();
   }
+
+  async function updateTodo(id, updates) {
+    try {
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updates),
+      });
+      const updatedTodo = await response.json();
+      return updatedTodo;
+    } catch (error) {
+      console.error("Error updating todo:", error);
+      return null;
+    }
+  }
+
   window.openEdit = openEdit;
   window.deleteTask = deleteTask;
   window.toggleDone = toggleDone;

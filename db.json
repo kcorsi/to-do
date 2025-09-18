@@ -8,17 +8,22 @@
     {
       "id": "bb4d",
       "text": "test",
-      "done": false
-    },
-    {
-      "id": "f9ba",
-      "text": "walk",
-      "done": false
+      "done": true
     },
     {
       "id": "09cf",
-      "text": "clean",
+      "text": "cleans floor",
       "done": false
+    },
+    {
+      "id": "fb54",
+      "text": "drink waters",
+      "done": false
+    },
+    {
+      "id": "5157",
+      "text": "walk",
+      "done": true
     }
   ]
 }

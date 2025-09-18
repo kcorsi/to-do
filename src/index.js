@@ -13,14 +13,10 @@
     }
   }
   //let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
-  let editingIndex = null;
+  //let editingIndex = null;
   let deleteIndex = null;
   let tasks = await getTasks();
   console.log(tasks);
-
-  /*  function saveTasks() {
-          localStorage.setItem("tasks", JSON.stringify(tasks));
-        } */
 
   async function saveTasks(id, changes) {
     const taskIndex = tasks.findIndex((task) => {
@@ -36,9 +32,12 @@
   }
 
   function openEdit(id) {
-    editingIndex = id;
-    console.log(`I am editing task number ${id}`);
-    document.getElementById("editTaskInput").value = tasks[id].text;
+    const task = tasks.find((task) => {
+      return task.id === id;
+    });
+    const modalInput = document.getElementById("editTaskInput");
+    modalInput.value = task.text;
+    modalInput.dataset.taskId = id;
     new bootstrap.Modal(document.getElementById("editModal")).show();
   }
 
@@ -61,9 +60,9 @@
       }</span>
           </div>
           <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-secondary" onclick="openEdit(${
+            <button class="btn btn-sm btn-secondary" onclick="openEdit('${
               task.id
-            })">
+            }')">
               <i data-lucide="pencil"></i>
               </button>
               <button class="btn btn-sm btn btn-danger" onclick="deleteTask('${
@@ -118,12 +117,11 @@
         }*/
 
   function saveEdit() {
-    const text = document.getElementById("editTaskInput").value.trim();
-    if (text && editingIndex !== null) {
-      tasks[editingIndex].text = text;
-      renderTasks();
-      bootstrap.Modal.getInstance(document.getElementById("editModal")).hide();
-    }
+    const modalInput = document.getElementById("editTaskInput");
+    const id = modalInput.dataset.taskId;
+    const newText = modalInput.value.trim();
+    updateTodo(id, { text: newText });
+    renderTasks();
   }
 
   function deleteTask(id) {
@@ -139,7 +137,7 @@
 
     bootstrap.Modal.getInstance(document.getElementById("deleteModal")).hide();
     try {
-      const response = await fetch(`${API_URL}/${deleteIndex}`, {
+      const response = await fetch(`${API_URL}/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

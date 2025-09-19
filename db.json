@@ -1,11 +1,6 @@
 {
   "todos": [
     {
-      "id": "1",
-      "text": "clean room",
-      "done": true
-    },
-    {
       "id": "fb54",
       "text": "drink waters",
       "done": true

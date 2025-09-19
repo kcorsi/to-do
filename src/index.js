@@ -14,7 +14,7 @@
   }
 
   let tasks = await getTasks();
-
+  //Function to open modal to edit todo
   function openEdit(id) {
     const task = tasks.find((task) => {
       return task.id === id;
@@ -24,12 +24,11 @@
     modalInput.dataset.taskId = id;
     new bootstrap.Modal(document.getElementById("editModal")).show();
   }
-
+  //Function to
   function renderTasks() {
     const list = document.getElementById("taskList");
     list.innerHTML = "";
-    tasks.forEach((task, index) => {
-      console.log(task, index);
+    tasks.forEach((task) => {
       const card = document.createElement("div");
       card.className =
         "card-task d-flex justify-content-between align-items-center";
@@ -59,7 +58,7 @@
     });
     lucide.createIcons();
   }
-
+  //Function to take new text from add task button to add to the list of tasks in db.json
   async function addTask() {
     const input = document.getElementById("newTaskInput");
     const text = input.value.trim();
@@ -81,21 +80,20 @@
       return null;
     }
   }
-
+  //Function to take input after clicking the edit button and add the changed information to db.json
   function saveEdit() {
     const modalInput = document.getElementById("editTaskInput");
     const id = modalInput.dataset.taskId;
     const newText = modalInput.value.trim();
     updateTodo(id, { text: newText });
-    renderTasks();
   }
-
+  //Function to select the task being deleted after clicking the trash icon
   function deleteTask(id) {
     const confirmDeleteButton = document.getElementById("confirmDeleteButton");
     confirmDeleteButton.dataset.taskId = id;
     new bootstrap.Modal(document.getElementById("deleteModal")).show();
   }
-
+  //Function to take task that was selected and remove from html and db.json
   async function confirmDelete() {
     const confirmDeleteButton = document.getElementById("confirmDeleteButton");
     const id = confirmDeleteButton.dataset.taskId;
@@ -115,16 +113,13 @@
       return null;
     }
   }
-
+  //Function to change status of whether todo is done or not
   async function toggleDone(id) {
     const task = tasks.find((task) => {
       return task.id === id;
     });
     const newStatus = !task.done;
-    const updatedTodo = await updateTodo(id, { done: newStatus });
-    console.log("updatedTodo");
-    console.log(updatedTodo);
-    renderTasks();
+    await updateTodo(id, { done: newStatus });
   }
 
   async function updateTodo(id, updates) {
@@ -136,8 +131,7 @@
         },
         body: JSON.stringify(updates),
       });
-      const updatedTodo = await response.json();
-      return updatedTodo;
+      await response.json();
     } catch (error) {
       console.error("Error updating todo:", error);
       return null;

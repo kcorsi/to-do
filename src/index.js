@@ -12,24 +12,8 @@
       return [];
     }
   }
-  //let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
-  //let editingIndex = null;
-  let deleteIndex = null;
-  let tasks = await getTasks();
-  console.log(tasks);
 
-  async function saveTasks(id, changes) {
-    const taskIndex = tasks.findIndex((task) => {
-      return task.id === id;
-    });
-    console.log("taskIndex = ", taskIndex);
-    if (tasks[taskIndex].done) {
-      tasks[taskIndex].done = false;
-    } else {
-      tasks[taskIndex].done = true;
-    }
-    console.log(tasks);
-  }
+  let tasks = await getTasks();
 
   function openEdit(id) {
     const task = tasks.find((task) => {
@@ -98,24 +82,6 @@
     }
   }
 
-  /*function addTask() {
-          const input = document.getElementById("newTaskInput");
-          const text = input.value.trim();
-
-          if (text) {
-            tasks.push({
-              text,
-              done: false,
-            });
-            saveTasks();
-            renderTasks();
-            input.value = "";
-            bootstrap.Modal.getInstance(
-              document.getElementById("addModal")
-            ).hide();
-          }
-        }*/
-
   function saveEdit() {
     const modalInput = document.getElementById("editTaskInput");
     const id = modalInput.dataset.taskId;
@@ -125,15 +91,14 @@
   }
 
   function deleteTask(id) {
-    deleteIndex = id;
+    const confirmDeleteButton = document.getElementById("confirmDeleteButton");
+    confirmDeleteButton.dataset.taskId = id;
     new bootstrap.Modal(document.getElementById("deleteModal")).show();
   }
 
   async function confirmDelete() {
-    console.log(deleteIndex);
-    tasks.splice(deleteIndex, 1);
-    // fetch function here
-    renderTasks();
+    const confirmDeleteButton = document.getElementById("confirmDeleteButton");
+    const id = confirmDeleteButton.dataset.taskId;
 
     bootstrap.Modal.getInstance(document.getElementById("deleteModal")).hide();
     try {
@@ -146,7 +111,7 @@
       const newTodo = await response.json();
       return newTodo;
     } catch (error) {
-      console.error("Error adding todo:", error);
+      console.error("Error deleting todo:", error);
       return null;
     }
   }

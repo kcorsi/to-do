@@ -6,23 +6,18 @@
       "done": true
     },
     {
-      "id": "bb4d",
-      "text": "test",
+      "id": "fb54",
+      "text": "drink waters",
       "done": true
     },
     {
-      "id": "09cf",
-      "text": "cleans floor",
-      "done": false
-    },
-    {
-      "id": "fb54",
-      "text": "drink waters",
-      "done": false
-    },
-    {
       "id": "5157",
-      "text": "walk",
+      "text": "walk around",
+      "done": true
+    },
+    {
+      "id": "4ab2",
+      "text": "color",
       "done": true
     }
   ]

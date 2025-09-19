@@ -24,7 +24,7 @@
     modalInput.dataset.taskId = id;
     new bootstrap.Modal(document.getElementById("editModal")).show();
   }
-  //Function to
+  //Function to update task list in html and add creating the update and delete buttons
   function renderTasks() {
     const list = document.getElementById("taskList");
     list.innerHTML = "";
@@ -121,7 +121,7 @@
     const newStatus = !task.done;
     await updateTodo(id, { done: newStatus });
   }
-
+  //Function to receive changes required from other functions and send them to db.json
   async function updateTodo(id, updates) {
     try {
       const response = await fetch(`${API_URL}/${id}`, {
